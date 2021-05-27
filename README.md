@@ -1,1 +1,5 @@
-# list_phone_jumia
+# List Phone
+
+To run
+
+    go run main.go
