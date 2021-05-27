@@ -13,10 +13,10 @@ func ListPhone(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("List Phone")
 
 	db, err := sql.Open("sqlite3", "./sample.db?mode=memory&_fk=true&cache=shared")
+	defer db.Close()
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM customer;")
 	if err != nil {
