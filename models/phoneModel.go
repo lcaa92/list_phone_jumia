@@ -18,7 +18,6 @@ type PhoneResult struct {
 }
 
 func (p *Phone) ExtractPhoneData() {
-	fmt.Printf("%v\n", p.PhoneNumber)
 	country, state, country_code, phone_number := getDataFromPhone(p.PhoneNumber)
 	p.OutputPhone.Country = country
 	p.OutputPhone.State = state
