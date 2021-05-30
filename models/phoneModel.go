@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -26,7 +26,6 @@ func (p *Phone) ExtractPhoneData() {
 }
 
 func getDataFromPhone(phone_number string) (country, state, country_code, phone string) {
-	state = "OK"
 	split_phone := strings.Split(phone_number, " ")
 
 	country_code = split_phone[0]
@@ -36,18 +35,31 @@ func getDataFromPhone(phone_number string) (country, state, country_code, phone 
 
 	phone = split_phone[1]
 
+	var regexState string
+
 	switch country_code {
 	case "+237":
 		country = "Cameroon"
+		regexState = `\(237\)\ ?[2368]\d{7,8}$`
 	case "+251":
 		country = "Ethiopia"
+		regexState = `\(251\)\ ?[1-59]\d{8}$`
 	case "+212":
 		country = "Morocco"
+		regexState = `\(212\)\ ?[5-9]\d{8}$`
 	case "+258":
 		country = "Mozambique"
+		regexState = `\(258\)\ ?[28]\d{7,8}$`
 	case "+256":
 		country = "Uganda"
+		regexState = `\(256\)\ ?\d{9}$`
+	}
 
+	var validateState = regexp.MustCompile(regexState)
+	if validateState.MatchString(phone_number) {
+		state = "OK"
+	} else {
+		state = "NOK"
 	}
 	return
 }
