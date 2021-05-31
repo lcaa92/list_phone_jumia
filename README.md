@@ -1,5 +1,5 @@
 # List Phone
 
-To run
+Run project
 
     go run main.go
