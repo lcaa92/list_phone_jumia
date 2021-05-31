@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,6 +16,13 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/phones", phoneController.ListPhone)
+
+	var dir string
+	flag.StringVar(&dir, "static", "./static", "./static")
+	flag.Parse()
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
+
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./templates/")))
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
