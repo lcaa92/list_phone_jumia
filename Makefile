@@ -1,5 +1,6 @@
 help:
-	@echo "run: Start de app"
+	@echo "Options:"
+	@echo "\t run: Start de app"
 
 run:
 	@go run main.go
