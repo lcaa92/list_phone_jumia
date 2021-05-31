@@ -20,22 +20,21 @@ type PhoneResult struct {
 }
 
 func (p *Phone) ExtractPhoneData() {
-	country, state, country_code, phone_number := getDataFromPhone(p.PhoneNumber)
-	p.OutputPhone.Country = country
-	p.OutputPhone.State = state
-	p.OutputPhone.CountryCode = country_code
-	p.OutputPhone.PhoneNumber = phone_number
-}
+	var (
+		country      string
+		state        string
+		country_code string
+		phone_number string
+	)
 
-func getDataFromPhone(phone_number string) (country, state, country_code, phone string) {
-	split_phone := strings.Split(phone_number, " ")
+	split_phone := strings.Split(p.PhoneNumber, " ")
 
 	country_code = split_phone[0]
 	country_code = strings.Replace(country_code, "(", "", -1)
 	country_code = strings.Replace(country_code, ")", "", -1)
 	country_code = strings.Join([]string{"+", country_code}, "")
 
-	phone = split_phone[1]
+	phone_number = split_phone[1]
 
 	var regexState string
 
@@ -58,12 +57,16 @@ func getDataFromPhone(phone_number string) (country, state, country_code, phone 
 	}
 
 	var validateState = regexp.MustCompile(regexState)
-	if validateState.MatchString(phone_number) {
+	if validateState.MatchString(p.PhoneNumber) {
 		state = "OK"
 	} else {
 		state = "NOK"
 	}
-	return
+
+	p.OutputPhone.Country = country
+	p.OutputPhone.State = state
+	p.OutputPhone.CountryCode = country_code
+	p.OutputPhone.PhoneNumber = phone_number
 }
 
 func GetPhoneList() (phoneList []string) {
