@@ -4,13 +4,25 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/lcaa92/list_phone_jumia/models"
 	_ "github.com/mattn/go-sqlite3"
 )
 
+type PhoneFilter struct {
+	Country string
+	State   string
+}
+
 // ListPhone return list of Phone
 func ListPhone(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	phoneFilter := PhoneFilter{
+		Country: strings.Join(query["country"], ""),
+		State:   strings.Join(query["state"], ""),
+	}
+
 	db, err := sql.Open("sqlite3", "./sample.db?mode=memory&_fk=true&cache=shared")
 	defer db.Close()
 	if err != nil {
@@ -37,6 +49,13 @@ func ListPhone(w http.ResponseWriter, r *http.Request) {
 		}
 		phoneModel.ExtractPhoneData()
 
+		if phoneFilter.Country != "" && phoneFilter.Country != phoneModel.OutputPhone.Country {
+			continue
+		}
+
+		if phoneFilter.State != "" && phoneFilter.State != phoneModel.OutputPhone.State {
+			continue
+		}
 		arrResult = append(arrResult, phoneModel.OutputPhone)
 	}
 
