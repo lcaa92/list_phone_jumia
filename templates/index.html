@@ -3,17 +3,34 @@
 
 <head>
     <style>
-        table, th, td {
-          border: 1px solid black;
-          border-collapse: collapse;
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
         }
-        </style>
-    <script src="static/main.js"></script>
+    </style>
+    
     <title>List Phones</title>
 </head>
 
 <body>
     Phone Numbers. <br /><br />
+
+    Filters:
+    <select name="filterCountry" id="filterCountry" onchange="updateTablePhone()">
+        <option value="">Select a country</option>
+        <option value="Cameroon">Cameroon</option>
+        <option value="Ethiopia">Ethiopia</option>
+        <option value="Mozambique">Mozambique</option>
+        <option value="Uganda">Uganda</option>
+    </select>
+
+    <select name="filterStatePhone" id="filterStatePhone" onchange="updateTablePhone()">
+        <option value="">Valid phone numbers</option>
+        <option value="OK">OK</option>
+        <option value="NOK">NOK</option>
+    </select>
 
     <table id="listPhonesTable">
         <thead>
@@ -26,6 +43,8 @@
 
         </tbody>
     </table>
+
+    <script src="static/main.js"></script>
 </body>
 
 </html>
