@@ -37,11 +37,16 @@ function insertRowData(rowData){
     newRow.insertCell().appendChild(document.createTextNode(rowData['PhoneNumber']));
 }
 
-function updateTablePhone(){
-    let tbodyPhoneTable = document.getElementById("listPhonesTable").querySelectorAll('tbody')[0]
-    for (let index = 1; index < tbodyPhoneTable.rows.length; index++) {
+function clearPhoneTable(){
+    let tbodyPhoneTable = document.getElementById('listPhonesTable').getElementsByTagName('tbody')[0]
+    let totalRows = tbodyPhoneTable.rows.length
+    for (let index = 0; index < totalRows; index++) {
         tbodyPhoneTable.deleteRow(0)
     }
+}
+
+function updateTablePhone() {
+    clearPhoneTable()
     fetchData()
 }
 
