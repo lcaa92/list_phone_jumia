@@ -6,12 +6,17 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func GetPhoneList() (phoneList []string) {
+func OpenConnection() *sql.DB {
 	db, err := sql.Open("sqlite3", "./sample.db?mode=memory&_fk=true&cache=shared")
-	defer db.Close()
 	if err != nil {
 		panic(err)
 	}
+	return db
+}
+
+func GetPhoneList() (phoneList []string) {
+	db := OpenConnection()
+	defer db.Close()
 
 	rows, err := db.Query("SELECT phone FROM customer;")
 	if err != nil {
