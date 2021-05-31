@@ -3,6 +3,8 @@ package models
 import (
 	"regexp"
 	"strings"
+
+	"github.com/lcaa92/list_phone_jumia/database"
 )
 
 type Phone struct {
@@ -61,5 +63,27 @@ func getDataFromPhone(phone_number string) (country, state, country_code, phone 
 	} else {
 		state = "NOK"
 	}
+	return
+}
+
+func GetPhoneList() (phoneList []string) {
+	db := database.OpenConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT phone FROM customer;")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	var phoneNumber string
+	for rows.Next() {
+		err = rows.Scan(&phoneNumber)
+		if err != nil {
+			panic(err)
+		}
+		phoneList = append(phoneList, phoneNumber)
+	}
+
 	return
 }

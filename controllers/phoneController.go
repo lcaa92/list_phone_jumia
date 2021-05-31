@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/lcaa92/list_phone_jumia/database"
 	"github.com/lcaa92/list_phone_jumia/models"
 )
 
@@ -22,7 +21,7 @@ func ListPhone(w http.ResponseWriter, r *http.Request) {
 		State:   strings.Join(query["state"], ""),
 	}
 
-	phoneList := database.GetPhoneList()
+	phoneList := models.GetPhoneList()
 
 	var arrResult []models.PhoneResult
 	for _, phoneNumber := range phoneList {

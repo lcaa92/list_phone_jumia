@@ -13,25 +13,3 @@ func OpenConnection() *sql.DB {
 	}
 	return db
 }
-
-func GetPhoneList() (phoneList []string) {
-	db := OpenConnection()
-	defer db.Close()
-
-	rows, err := db.Query("SELECT phone FROM customer;")
-	if err != nil {
-		panic(err)
-	}
-	defer rows.Close()
-
-	var phoneNumber string
-	for rows.Next() {
-		err = rows.Scan(&phoneNumber)
-		if err != nil {
-			panic(err)
-		}
-		phoneList = append(phoneList, phoneNumber)
-	}
-
-	return
-}
